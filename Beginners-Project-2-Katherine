@@ -1,0 +1,94 @@
+import random
+
+def loading_screen():
+    print("Generating your scenario...")
+    print("Loading...\n")
+
+def forest_treasure_hunt():
+    print("Welcome to the Forest Treasure Hunt!")
+    fruits = ["banana", "apple", "strawberry", "blueberry", "orange"]
+    guessed_fruits = []
+    
+    while set(guessed_fruits) != set(fruits):
+        guessed_fruits = input("Guess five fruits: ").split()
+        correct_fruits = [fruit for fruit in guessed_fruits if fruit in fruits]
+        if set(correct_fruits) == set(fruits):
+            print("You guessed all the fruits correctly! You may pass.")
+        else:
+            print(f"Correct fruits so far: {correct_fruits}. Try again.")
+    
+    height = int(input("Enter your height in cm to cross the river: "))
+    if height <= 160:
+        print("You drown.")
+    elif 160 < height <= 180:
+        print("You live.")
+    else:
+        print("The tiger spots you too easily and you die.")
+    
+    password = "1234"
+    attempts = 10
+    while attempts > 0:
+        guess = input("Enter a 4-digit password: ")
+        if guess == password:
+            print("You unlocked the door! Success!")
+            break
+        else:
+            correct_digits = sum(1 for a, b in zip(guess, password) if a == b)
+            print(f"{correct_digits} digits are correct. Try again.")
+            attempts -= 1
+    if attempts == 0:
+        print("You failed to unlock the door.")
+
+def coding_quiz():
+    print("Welcome to the Coding Quiz!")
+    questions = [
+        {"question": "What is the output of print(2 ** 3)?", "options": ["6", "8", "9", "7"], "answer": "8"},
+        {"question": "Which of the following is a mutable data type?", "options": ["tuple", "list", "string", "int"], "answer": "list"},
+        {"question": "What does the 'len' function do?", "options": ["Returns the length of an object", "Returns the type of an object", "Returns the value of an object", "Returns the id of an object"], "answer": "Returns the length of an object"},
+        {"question": "Which keyword is used to define a function in Python?", "options": ["func", "def", "function", "define"], "answer": "def"},
+        {"question": "What is the correct file extension for Python files?", "options": [".py", ".python", ".pt", ".pyt"], "answer": ".py"},
+        {"question": "Which of the following is a Python framework?", "options": ["Django", "React", "Angular", "Vue"], "answer": "Django"}
+    ]
+    
+    correct_answers = 0
+    for q in questions:
+        print(q["question"])
+        for i, option in enumerate(q["options"], 1):
+            print(f"{i}. {option}")
+        answer = input("Your answer: ")
+        if q["options"][int(answer) - 1] == q["answer"]:
+            correct_answers += 1
+    
+    incorrect_answers = len(questions) - correct_answers
+    percentage = (correct_answers / len(questions)) * 100
+    print(f"\nYou answered {correct_answers} questions correctly.")
+    print(f"You answered {incorrect_answers} questions incorrectly.")
+    print(f"Your score: {percentage}%")
+    
+    if correct_answers == 6:
+        print("Congrats! You got all questions right!")
+    elif correct_answers == 0:
+        print("You're bad. Better luck next time!")
+    else:
+        print("Good effort! Keep practicing.")
+
+def main():
+    loading_screen()
+    scenario = random.choice(["forest", "quiz"])
+    if scenario == "forest":
+        forest_treasure_hunt()
+    else:
+        coding_quiz()
+    
+    play_again = input("Would you like to try the other game? (yes/no): ").lower()
+    if play_again == "yes":
+        if scenario == "forest":
+            coding_quiz()
+        else:
+            forest_treasure_hunt()
+    else:
+        print("Thank you for playing! Goodbye!")
+
+if __name__ == "__main__":
+    main()
+    
